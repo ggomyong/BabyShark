@@ -4,9 +4,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class CameraService {
-  main_x: number;
-  main_y: number;
-
   max_x: number =0;
   max_y: number =0;
 
