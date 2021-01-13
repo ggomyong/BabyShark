@@ -44,7 +44,6 @@ export class AppComponent implements OnInit {
     let params = {
       width: this.max_x+'px',
       height: this.max_y+'px'
-
     };
     let two = new Two(params).appendTo(elem);
 
