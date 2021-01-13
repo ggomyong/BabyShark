@@ -1,6 +1,7 @@
 import { HostListener } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import Two from '../assets/two.min.js';
+import { AiService } from './services/ai.service.js';
 import { CameraService } from './services/camera.service.js';
 import { Sprite, SpriteService } from './services/sprite.service.js';
 
@@ -18,7 +19,7 @@ export class AppComponent implements OnInit {
   max_x: number= 3500;
   max_y: number= 2500;
 
-  constructor(private _spriteService: SpriteService, private _cameraService: CameraService) {}
+  constructor(private _spriteService: SpriteService, private _cameraService: CameraService, private _aiService: AiService) {}
 
   @HostListener('document:keydown', ['$event'])
   handleKey(event: any) {
@@ -48,6 +49,8 @@ export class AppComponent implements OnInit {
     let two = new Two(params).appendTo(elem);
 
     this._cameraService.init(this.max_x, this.max_y);
+    this._spriteService.populateWilliam(10);
+    this._spriteService.populateEngelfish(1);
 
     //loop through service
     for (let i=0; i<this._spriteService.sprites.length; i++) {
@@ -56,6 +59,9 @@ export class AppComponent implements OnInit {
       this._spriteService.sprites[i].sprite.play(this._spriteService.sprites[i].rightFrames[0], this._spriteService.sprites[i].rightFrames[1]);
       this._spriteService.sprites[i].sprite.scale=this._spriteService.sprites[i].scale;
     }
+
+    
+
     //rectangle.scale=.7;
     two.bind('update', (framesPerSecond)=>{
       // this is where animatoin happens
@@ -67,6 +73,13 @@ export class AppComponent implements OnInit {
       this._cameraService.zoomCamera(this.x, this.y);
 
         for (let i=0; i<this._spriteService.sprites.length; i++) {
+          if (i>0) {
+            this._spriteService.sprites[i]=this._aiService.basicAI(this._spriteService.sprites[i]);
+            this._spriteService.sprites[i].sprite.translation.x = this._spriteService.sprites[i].x;
+            this._spriteService.sprites[i].sprite.translation.y = this._spriteService.sprites[i].y;
+            if (i==1) {
+            }
+          }
           if (this._spriteService.sprites[i].direction != this._spriteService.sprites[i].lastDirection) {
             this._spriteService.sprites[i].lastDirection=this._spriteService.sprites[i].direction;
             if (this._spriteService.sprites[i].direction=='right') {
