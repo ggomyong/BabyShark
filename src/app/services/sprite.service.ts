@@ -97,8 +97,8 @@ export class SpriteService {
   populateWilliam(numberToPopulate: number) {
     for (let i=0; i<numberToPopulate; i++) {
       let william = this.william;
-      william.x = Math.floor(Math.random() * 500* i);
-      william.y = Math.floor(Math.random() * 100* i);
+      william.x = Math.floor(Math.random() * 50* i)+300;
+      william.y = Math.floor(Math.random() * 10* i)+200;
 
       this.sprites.push(JSON.parse(JSON.stringify(william)));
     }
