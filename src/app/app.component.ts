@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import Two from '../assets/two.min.js';
 import { AiService } from './services/ai.service.js';
 import { CameraService } from './services/camera.service.js';
+import { MapService } from './services/map.service.js';
 import { Sprite, SpriteService } from './services/sprite.service.js';
 
 @Component({
@@ -19,7 +20,7 @@ export class AppComponent implements OnInit {
   max_x: number= 3500;
   max_y: number= 2500;
 
-  constructor(private _spriteService: SpriteService, private _cameraService: CameraService, private _aiService: AiService) {}
+  constructor(private _spriteService: SpriteService, private _cameraService: CameraService, private _aiService: AiService, private _mapService: MapService) {}
 
   @HostListener('document:keydown', ['$event'])
   handleKey(event: any) {
@@ -43,17 +44,17 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     let elem = document.getElementById('map');
     let params = {
-      width: this.max_x+'px',
-      height: this.max_y+'px'
+      width: this._mapService.MAX_X,
+      height: this._mapService.MAX_Y
     };
     let two = new Two(params).appendTo(elem);
 
-    this._cameraService.init(this.max_x, this.max_y);
     this._spriteService.populateWilliam(10);
     this._spriteService.populateEngelfish(1);
+    this._mapService.init(two);
 
     //loop through service
-    for (let i=0; i<this._spriteService.sprites.length; i++) {
+    for (let i=this._spriteService.sprites.length-1; i>=0; i--) {
       let sprite=this._spriteService.sprites[i];
       this._spriteService.sprites[i].sprite=two.makeSprite(sprite.url, sprite.x, sprite.y, sprite.columns, sprite.rows, sprite.fps);
       this._spriteService.sprites[i].sprite.play(this._spriteService.sprites[i].rightFrames[0], this._spriteService.sprites[i].rightFrames[1]);
@@ -72,7 +73,7 @@ export class AppComponent implements OnInit {
       
       this._cameraService.zoomCamera(this.x, this.y);
 
-        for (let i=0; i<this._spriteService.sprites.length; i++) {
+        for (let i=this._spriteService.sprites.length-1; i>=0; i--) {
           if (i>0) {
             this._spriteService.sprites[i]=this._aiService.basicAI(this._spriteService.sprites[i]);
             this._spriteService.sprites[i].sprite.translation.x = this._spriteService.sprites[i].x;
