@@ -51,6 +51,7 @@ export class AppComponent implements OnInit {
 
     this._spriteService.populateWilliam(10);
     this._spriteService.populateEngelfish(1);
+    this._spriteService.populateSeaweeds(7);
     this._mapService.init(two);
 
     //loop through service

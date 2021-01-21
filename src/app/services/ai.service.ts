@@ -50,6 +50,7 @@ export class AiService {
     // change direction in [changeDirectionChance]
     // when direction is not changed, update x coordinate in [updateMovementXChance]
     // update y coordinate in [updateMovementYChance]
+    if (sprite.maxSpeed == 0 )return sprite;
     let chance = Math.random();
     if (chance< this._changeDirectionChance) {
       if (sprite.direction =='right') {

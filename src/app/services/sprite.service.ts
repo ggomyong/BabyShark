@@ -29,6 +29,26 @@ export interface Sprite {
   providedIn: 'root'
 })
 export class SpriteService {
+  seaweed: Sprite = {
+    name: 'Seaweed',
+    visibility: true,
+    state: 0,
+    direction: 'none',
+    lastDirection: 'none',
+    maxSpeed: 0,
+    acceleration: 0,
+    scale: 1,
+    playable: false,
+    url: '../assets/sprites/seaweeds (1).png',
+    fps: 7,
+    x: 0,
+    y: 0,
+    rows: 2,
+    columns: 1,
+    sprite: null,
+    leftFrames: [0, 1],
+    rightFrames: [0, 1]
+  }
   william:Sprite= {
     name: 'William',
       visibility: true,
@@ -111,6 +131,16 @@ export class SpriteService {
       engelfish.y = Math.floor(Math.random() * 100* i);
 
       this.sprites.push(JSON.parse(JSON.stringify(engelfish)));
+    }
+  }
+
+  populateSeaweeds(numberToPopulate: number) {
+    for (let i=0; i<numberToPopulate; i++) {
+      let seaweed = this.seaweed;
+      seaweed.x = Math.floor(Math.random() * 2500* i);
+      seaweed.y = 700 + (Math.random()*100)
+
+      this.sprites.push(JSON.parse(JSON.stringify(seaweed)));
     }
   }
 

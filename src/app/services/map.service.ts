@@ -15,5 +15,6 @@ export class MapService {
     sea.opacity=.87;
     let sand = two.makeRectangle(0, 1100, 7500, 750);
     sand.fill = '#00ff00';
+
   }
 }
