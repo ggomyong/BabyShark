@@ -78,8 +78,10 @@ export class AppComponent implements OnInit {
             this._spriteService.sprites[i].sprite.translation.x = this._spriteService.sprites[i].x;
             this._spriteService.sprites[i].sprite.translation.y = this._spriteService.sprites[i].y;
             if (i==1) {
+              console.log(this._spriteService.sprites[i].x);
             }
           }
+
           if (this._spriteService.sprites[i].direction != this._spriteService.sprites[i].lastDirection) {
             this._spriteService.sprites[i].lastDirection=this._spriteService.sprites[i].direction;
             if (this._spriteService.sprites[i].direction=='right') {

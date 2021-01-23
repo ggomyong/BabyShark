@@ -5,8 +5,8 @@ import { Sprite } from './sprite.service';
   providedIn: 'root'
 })
 export class AiService {
-  private _changeDirectionChance=.03;
-  private _updateMovementXChance = .5;
+  private _changeDirectionChance=.005;
+  private _updateMovementXChance = .8;
   private _updateMovementYChance = .2;
 
   constructor() { }
