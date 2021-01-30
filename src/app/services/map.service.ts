@@ -12,7 +12,7 @@ export class MapService {
   init(two: any) {
     let sea= two.makeRectangle(0, 0, 7500, 1500);
     sea.fill = 'blue';
-    sea.opacity=.87;
+    sea.opacity=.65;
     let sand = two.makeRectangle(0, 1100, 7500, 750);
     sand.fill = '#00ff00';
 

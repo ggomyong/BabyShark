@@ -10,8 +10,8 @@ export class AiService {
   private _max_x = 0;
   private _max_y = 0;
 
-  private _changeDirectionChance=.03;
-  private _updateMovementXChance = .5;
+  private _changeDirectionChance=.005;
+  private _updateMovementXChance = .8;
   private _updateMovementYChance = .2;
 
   constructor(private _mapService: MapService) { 
