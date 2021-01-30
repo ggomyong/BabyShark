@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import Two from '../../assets/two.min.js';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,11 +10,11 @@ export class MapService {
   constructor() { }
 
   init(two: any) {
-    let sea= two.makeRectangle(0, 0, 7500, 1500);
+    //var texture = new Two.Texture('../assets/images/grass2.png')
+    let sea= two.makeRectangle(0, 0, 7000, 1500);
     sea.fill = 'blue';
     sea.opacity=.65;
-    let sand = two.makeRectangle(0, 1100, 7500, 750);
+    let sand = two.makeRectangle(0, 1100, 7000, 750);
     sand.fill = '#00ff00';
-
   }
 }

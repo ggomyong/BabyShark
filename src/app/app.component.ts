@@ -79,8 +79,6 @@ export class AppComponent implements OnInit {
             this._spriteService.sprites[i]=this._aiService.basicAI(this._spriteService.sprites[i]);
             this._spriteService.sprites[i].sprite.translation.x = this._spriteService.sprites[i].x;
             this._spriteService.sprites[i].sprite.translation.y = this._spriteService.sprites[i].y;
-            if (i==1) {
-            }
           }
           if (this._spriteService.sprites[i].direction != this._spriteService.sprites[i].lastDirection) {
             this._spriteService.sprites[i].lastDirection=this._spriteService.sprites[i].direction;
