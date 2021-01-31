@@ -20,15 +20,26 @@ export class AppComponent implements OnInit {
     let elem = document.getElementById('draw-shapes');
     let params = {fullscreen: true};
     let two = new Two(params).appendTo(elem);
-    let x = 100;
+    let x = 1000;
+    let y= 200;
 
     //initialization
-    let circle=two.makeCircle (x, 200, 150);
-
+    let circle=two.makeCircle (x, y, 150);
+    let square = two.makeRectangle (x,y, 200, 200);
+    let time = 0;
+    let scale=0;
     two.bind('update', (framesPerSecond)=>{
       // this is where animatoin happens
-      circle.translation.set(x++, 200);
-      
+      //circle.translation.set(x--, y++);
+      time++;
+      scale=scale+.1;
+      if (scale>5) {
+        scale=1;
+      }
+
+      circle.scale=scale;
+      square.rotation=time%Math.PI*2;
+    
     }).play();
   }
 
