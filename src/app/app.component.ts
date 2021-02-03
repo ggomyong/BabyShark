@@ -1,7 +1,6 @@
-import { HostListener } from '@angular/core';
+
 import { Component, OnInit } from '@angular/core';
 import Two from '../assets/two.min.js';
-import { Sprite, SpriteService } from './services/sprite.service.js';
 
 @Component({
   selector: 'app-root',
@@ -9,27 +8,22 @@ import { Sprite, SpriteService } from './services/sprite.service.js';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  direction:string;
-  
-  x: number=200;
-  y: number=200;
 
-  constructor(private _spriteService: SpriteService) {}
+  constructor() {}
 
   ngOnInit(): void {
     let elem = document.getElementById('draw-shapes');
     let params = {fullscreen: true};
     let two = new Two(params).appendTo(elem);
-    let x = 100;
 
-    //initialization
-    let circle=two.makeCircle (x, 200, 150);
-
-    two.bind('update', (framesPerSecond)=>{
-      // this is where animatoin happens
-      circle.translation.set(x++, 200);
-      
-    }).play();
+    let rectangle = two.makeRectangle(100, 100, 500, 300);
+    rectangle.fill = '#6598A2';
+    let circle = two.makeCircle(500, 300, 100);
+    circle.fill = `red`;
+    circle.stroke = 'blue';
+    circle.linewidth = 10 ;
+    circle.opacity = 2;
+    two.update();
   }
 
   title = 'BabyShark';
