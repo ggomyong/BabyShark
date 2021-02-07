@@ -23,23 +23,24 @@ export class AppComponent implements OnInit {
     let x = 1000;
     let y= 200;
 
+    let startTime = Date.now();
     //initialization
     let circle=two.makeCircle (x, y, 150);
     let square = two.makeRectangle (x,y, 200, 200);
-    let time = 0;
-    let scale=0;
+    let ellipse = two.makeEllipse(250, 250, 40, 20);
+    let star = two.makeStar(500, 250, 40, 120, 0);
+    let star1 = two.makeStar(800, 250, 40, 120, 0);
+    square.rotation = 3.14;
+    star.fill='gold';
+    star1.fill = 'silver';
+
     two.bind('update', (framesPerSecond)=>{
       // this is where animatoin happens
-      //circle.translation.set(x--, y++);
-      time++;
-      scale=scale+.1;
-      if (scale>5) {
-        scale=1;
-      }
-
-      circle.scale=scale;
-      square.rotation=time%Math.PI*2;
-    
+      circle.translation.set(x--, y);
+      circle.rotation = (Date.now()-startTime)%Math.PI;
+      star.rotation = (Date.now()-startTime)%Math.PI;
+      star1.rotation = ((Date.now()-startTime)/500)%Math.PI;
+      square.rotation= (Date.now()-startTime)%Math.PI;
     }).play();
   }
 
