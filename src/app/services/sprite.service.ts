@@ -39,8 +39,8 @@ export class SpriteService {
     acceleration: 0,
     scale: 1,
     playable: false,
-    url: '../assets/sprites/seaweeds (1).png',
-    fps: 7,
+    url: '../assets/sprites/seaweeds 2.png',
+    fps: 1,
     x: 0,
     y: 0,
     rows: 2,
@@ -49,6 +49,27 @@ export class SpriteService {
     leftFrames: [0, 1],
     rightFrames: [0, 1]
   }
+  rock: Sprite = {
+    name: 'Rock',
+    visibility: true,
+    state: 0,
+    direction: 'none',
+    lastDirection: 'none',
+    maxSpeed: 0,
+    acceleration: 0,
+    scale: 1,
+    playable: false,
+    url: '../assets/sprites/rocks.png',
+    fps: 2,
+    x: 0,
+    y: 0,
+    rows: 2,
+    columns: 1,
+    sprite: null,
+    leftFrames: [0, 1],
+    rightFrames: [0, 1]
+  }
+
   william:Sprite= {
     name: 'William',
       visibility: true,
@@ -103,7 +124,7 @@ export class SpriteService {
       scale: .9,
       playable: true,
       url: '../assets/sprites/babysharks.png',
-      fps: 7,
+      fps: 4,
       x: 0,
       y: 0,
       rows: 2,
@@ -137,10 +158,20 @@ export class SpriteService {
   populateSeaweeds(numberToPopulate: number) {
     for (let i=0; i<numberToPopulate; i++) {
       let seaweed = this.seaweed;
-      seaweed.x = Math.floor(Math.random() * 2500* i);
+      seaweed.x = Math.floor(Math.random() * 1000* i);
       seaweed.y = 700 + (Math.random()*100)
 
       this.sprites.push(JSON.parse(JSON.stringify(seaweed)));
+    }
+  }
+
+  populateRocks(numberToPopulate: number) {
+    for (let i=0; i<numberToPopulate; i++) {
+      let rock = this.rock;
+      rock.x = Math.floor(Math.random() * 1000* i);
+      rock.y = 700 + (Math.random()*100)
+
+      this.sprites.push(JSON.parse(JSON.stringify(rock)));
     }
   }
 
