@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Sprite, SpriteService } from './sprite.service';
+import { Sprite } from './sprite.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CollisionService {
 
-  constructor(private _spriteService: SpriteService) { }
+  constructor() { }
 
   detectCollision(mySprite: Sprite, targetSprite: Sprite) {
-    const OFFSET = 4;
+    const OFFSET = 2;
 
     let width=mySprite.sprite.width;
     let height = mySprite.sprite.height;
@@ -29,8 +29,8 @@ export class CollisionService {
     if ((leftBound<targetLeftBound && targetLeftBound<rightBound) 
     || (leftBound<targetRightBound && targetRightBound<rightBound)) {
       //console.log('horizontal check!')
-      if ((upperBound<=targetUpperBound && targetUpperBound<=lowerBound) 
-      || (upperBound<=targetLowerBound && targetLowerBound<=lowerBound)) {
+      if ((upperBound<targetUpperBound && targetUpperBound<lowerBound) 
+      || (upperBound<targetLowerBound && targetLowerBound<lowerBound)) {
         targetSprite.scale=0;
       }
     }

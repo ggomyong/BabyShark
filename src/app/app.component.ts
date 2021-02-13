@@ -84,10 +84,12 @@ export class AppComponent implements OnInit {
       this._cameraService.zoomCamera(this.x, this.y);
         for (let i=this._spriteService.sprites.length-1; i>=0; i--) {
           if (i>0) {
+            if (!this._spriteService.sprites[i]) continue
             this._spriteService.sprites[i]=this._aiService.basicAI(this._spriteService.sprites[i]);
             this._spriteService.sprites[i].sprite.translation.x = this._spriteService.sprites[i].x;
             this._spriteService.sprites[i].sprite.translation.y = this._spriteService.sprites[i].y;
             this._spriteService.sprites[i].sprite.scale = this._spriteService.sprites[i].scale;
+            if (i==1) console.log(this._spriteService.sprites[i].sprite.scale)
             this._collisionService.detectCollision(this._spriteService.sprites[0], this._spriteService.sprites[i]);
           }
           if (this._spriteService.sprites[i].direction != this._spriteService.sprites[i].lastDirection) {
