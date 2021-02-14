@@ -14,12 +14,16 @@ export class AppComponent implements OnInit {
       autostart: true};
     let two = new Two(params).appendTo(elem);
     console.log('hi');
-    var star = two.makeRectangle(two.width / 2, two.height / 2, 250, 200);
-    var texture = new Two.Texture('https://i.imgur.com/DRmh6S9.jpg')
+    
+    var texture = new Two.Texture('../assets/images/gold.jpg', function() {
+      var rectangle = two.makeRectangle(two.width / 2, two.height / 2, texture.image.width, texture.image.height);
+      rectangle.fill = texture;
+      rectangle.scale=.2;
+    })
     
     // Textures fill as patterns on any Two.Path
-    star.fill = texture;
-    texture.scale = 0.125;
+    
+    //texture.scale = 0.125;
     
     // It automatically inherits the dimensions of the texture.
     
@@ -28,8 +32,9 @@ export class AppComponent implements OnInit {
     var frameRate = 15;
     
     // It also has an API to define a sprite sheet
-    var sheet = two.makeSprite('https://storage.googleapis.com/archive.jono.fyi/projects/two-js/junk/images/ken-sprite.png', two.width * 0.5, two.height * 0.75, columns, rows, frameRate);
-    
+    var sheet = two.makeSprite('../assets/images/ironman_sprite.png',
+     two.width * 0.5, two.height * 0.75, 4, 1, 5);
+    sheet.scale=10;
     // Which does the math to single out the dimensions of a cell and can then animate
     sheet.play();
     
