@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MapService } from './map.service';
 import { Sprite } from './sprite.service';
 
 @Injectable({
@@ -6,10 +7,28 @@ import { Sprite } from './sprite.service';
 })
 export class CollisionService {
 
-  constructor() { }
+  constructor(private _mapService: MapService) { }
+
+  detectBorder(sprite: Sprite, newX: number, newY: number) {
+    const OFFSET = 2;
+
+    let width=sprite.sprite.width;
+    let height = sprite.sprite.height;
+    
+    let leftBound = sprite.x-(width/OFFSET);
+    let rightBound = sprite.x+(width/OFFSET);
+    let upperBound = sprite.y-(height/OFFSET);
+    let lowerBound = sprite.y+(height/OFFSET);
+
+    if (leftBound<1 && newX<sprite.x) return true
+    if (rightBound>this._mapService.MAX_X && newX>sprite.x) return true
+    if (upperBound<1 && newY<sprite.y) return true
+    if (lowerBound>this._mapService.MAX_Y && newY>sprite.y) return true 
+    return false
+  }
 
   detectCollision(mySprite: Sprite, targetSprite: Sprite) {
-    const OFFSET = 2;
+    const OFFSET = 4;
 
     let width=mySprite.sprite.width;
     let height = mySprite.sprite.height;
@@ -31,7 +50,12 @@ export class CollisionService {
       //console.log('horizontal check!')
       if ((upperBound<targetUpperBound && targetUpperBound<lowerBound) 
       || (upperBound<targetLowerBound && targetLowerBound<lowerBound)) {
-        targetSprite.scale=0;
+        if (targetSprite.type == 'prey') {
+          targetSprite.scale = 0
+        }
+        else if (targetSprite.type =='predator') {
+          //handle game over
+        }
       }
     }
   }

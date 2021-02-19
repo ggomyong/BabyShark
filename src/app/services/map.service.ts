@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import Two from '../../assets/two.min.js';
+import { Sprite, SpriteService } from './sprite.service.js';
 @Injectable({
   providedIn: 'root'
 })
@@ -7,10 +8,9 @@ export class MapService {
   MAX_X: number = 3500;
   MAX_Y: number = 1000;
 
-  constructor() { }
+  constructor(private _spriteService: SpriteService) { }
 
   init(two: any) {
-    //var texture = new Two.Texture('../assets/images/grass2.png')
     let sea= two.makeRectangle(0, 0, 7000, 1500);
     sea.fill = 'blue';
     sea.opacity=.65;

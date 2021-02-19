@@ -10,6 +10,7 @@ export interface Sprite {
   acceleration: number;
   scale: number;
   playable: boolean;
+  type: string;
 
   url: string;
   fps: number; //frames per second
@@ -31,6 +32,7 @@ export interface Sprite {
 export class SpriteService {
   seaweed: Sprite = {
     name: 'Seaweed',
+    type: 'passable',
     visibility: true,
     state: 0,
     direction: 'none',
@@ -51,6 +53,7 @@ export class SpriteService {
   }
   rock: Sprite = {
     name: 'Rock',
+    type: 'block',
     visibility: true,
     state: 0,
     direction: 'none',
@@ -72,6 +75,7 @@ export class SpriteService {
 
   william:Sprite= {
     name: 'William',
+    type: 'prey',
       visibility: true,
       state: 0,
       direction: 'right',
@@ -93,13 +97,14 @@ export class SpriteService {
 
   engelfish: Sprite= {
     name: 'Engelfish',
+    type: 'predator',
       visibility: true,
       state: 0,
       direction: 'right',
       lastDirection: 'right',
       maxSpeed: 10,
       acceleration: 1,
-      scale: .7,
+      scale: 1.3,
       playable: true,
       url: '../assets/sprites/engelfish.png',
       fps: 7,
@@ -115,6 +120,7 @@ export class SpriteService {
   sprites:Sprite[]=[
     {
       name: 'Baby Shark',
+      type: 'self',
       visibility: true,
       state: 0,
       direction: 'right',
