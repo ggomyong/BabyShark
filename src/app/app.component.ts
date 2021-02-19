@@ -13,14 +13,13 @@ export class AppComponent implements OnInit {
     let params = {fullscreen: true,
       autostart: true};
     let two = new Two(params).appendTo(elem);
-    console.log('hi');
     
-    var texture = new Two.Texture('../assets/images/gold.jpg', function() {
-      var rectangle = two.makeRectangle(two.width / 2, two.height / 2, texture.image.width, texture.image.height);
-      rectangle.fill = texture;
-      rectangle.scale=.2;
+    let texture = new Two.Texture('../assets/images/gold.jpg', function () {
+      let circle1 = two.makeCircle(400, 400, texture.image.width)
+      circle1.fill=texture
+      circle1.scale=.2
     })
-    
+
     // Textures fill as patterns on any Two.Path
     
     //texture.scale = 0.125;
@@ -32,8 +31,8 @@ export class AppComponent implements OnInit {
     var frameRate = 15;
     
     // It also has an API to define a sprite sheet
-    var sheet = two.makeSprite('../assets/images/ironman_sprite.png',
-     two.width * 0.5, two.height * 0.75, 4, 1, 5);
+    var sheet = two.makeSprite('https://storage.googleapis.com/archive.jono.fyi/projects/two-js/junk/images/ken-sprite.png',
+     two.width * 0.5, two.height * 0.75, 10, 1, 1);
     sheet.scale=10;
     // Which does the math to single out the dimensions of a cell and can then animate
     sheet.play();
@@ -45,7 +44,7 @@ export class AppComponent implements OnInit {
     });
     
     two.bind('update', function(frameCount) {
-      console.log('hi');
+      //console.log('hi');
       // Sprites are Rectangles underneath so they have the same properties as Two.Path's
       sheet.translation.x = mouse.x || two.width * 0.5;
     
