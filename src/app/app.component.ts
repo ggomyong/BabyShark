@@ -37,16 +37,17 @@ export class AppComponent implements OnInit {
     //texture.scale = 0.125;
     
     // It also has an API to define a sprite sheet
-    let sprite = two.makeSprite('../assets/sprites/Megaman moving.png',this.x, this.y, 3, 1, 10);
+    let sprite = two.makeSprite('../assets/sprites/Megaman moving.png',200, 200, 3, 1, 10);
     sprite.scale=5;
     // Which does the math to single out the dimensions of a cell and can then animate
     sprite.play();
+    console.log('x: '+this.x)
     
-    two.bind('update', function(frameCount) {
+    two.bind('update', (frameCount)=> {
       //console.log('hi');
       // Sprites are Rectangles underneath so they have the same properties as Two.Path's
+      //console.log(this.x)
       sprite.translation.x = this.x;
-    
     });
         
   }
