@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown',['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-
+    console.log(event);
     if (event.key =='ArrowLeft') {
       //left arrow key has been pressed
       this.x=this.x-10;
@@ -31,11 +31,6 @@ export class AppComponent implements OnInit {
       autostart: true};
     let two = new Two(params).appendTo(elem);
     
-    let texture = new Two.Texture('../assets/images/gold.jpg', function () {
-      let circle1 = two.makeCircle(400, 400, texture.image.width)
-      circle1.fill=texture
-      circle1.scale=.2
-    })
 
     // Textures fill as patterns on any Two.Path
     
