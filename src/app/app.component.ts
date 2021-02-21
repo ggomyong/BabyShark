@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import Two from '../assets/two.min.js';
 @Component({
   selector: 'app-root',
@@ -7,7 +7,24 @@ import Two from '../assets/two.min.js';
 })
 export class AppComponent implements OnInit {
   constructor() {}
+  
+  x: number = 200;
+  y: number = 200;
 
+  @HostListener('document:keydown',['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+
+    if (event.key =='ArrowLeft') {
+      //left arrow key has been pressed
+      this.x=this.x-10;
+    }
+    else if (event.key =='ArrowRight') {
+      //right arrow key has been pressed
+      this.x=this.x+10;
+    }
+    console.log(this.x)
+  }
+  
   ngOnInit(): void {
     let elem = document.getElementById('draw-shapes');
     let params = {fullscreen: true,
@@ -24,29 +41,16 @@ export class AppComponent implements OnInit {
     
     //texture.scale = 0.125;
     
-    // It automatically inherits the dimensions of the texture.
-    
-    var columns = 10;
-    var rows = 1;
-    var frameRate = 15;
-    
     // It also has an API to define a sprite sheet
-    var sheet = two.makeSprite('https://storage.googleapis.com/archive.jono.fyi/projects/two-js/junk/images/ken-sprite.png',
-     two.width * 0.5, two.height * 0.75, 10, 1, 1);
-    sheet.scale=10;
+    let sprite = two.makeSprite('../assets/sprites/Megaman moving.png',this.x, this.y, 3, 1, 10);
+    sprite.scale=5;
     // Which does the math to single out the dimensions of a cell and can then animate
-    sheet.play();
-    
-    var mouse = new Two.Vector();
-    
-    window.addEventListener('mousemove', function(e) {
-      mouse.set(e.clientX, e.clientY);
-    });
+    sprite.play();
     
     two.bind('update', function(frameCount) {
       //console.log('hi');
       // Sprites are Rectangles underneath so they have the same properties as Two.Path's
-      sheet.translation.x = mouse.x || two.width * 0.5;
+      sprite.translation.x = this.x;
     
     });
         
