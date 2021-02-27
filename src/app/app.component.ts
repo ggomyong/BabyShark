@@ -56,10 +56,10 @@ export class AppComponent implements OnInit {
     };
     let two = new Two(params).appendTo(elem);
 
-    this._spriteService.populateWilliam(15);
+    //this._spriteService.populateWilliam(15);
     this._spriteService.populateEngelfish(1);
-    this._spriteService.populateSeaweeds(7);
-    this._spriteService.populateRocks(9);
+    //this._spriteService.populateSeaweeds(7);
+    //this._spriteService.populateRocks(9);
     this._mapService.init(two);
     this._gameService.init(two);
 
@@ -73,7 +73,7 @@ export class AppComponent implements OnInit {
     //rectangle.scale=.7;
     two.bind('update', (framesPerSecond)=>{
       // this is where animatoin happens
-      if (!this._collisionService.detectBorder(this._spriteService.sprites[0], this.x, this.y)) {
+      if (!this._collisionService.detectBorder(this._spriteService.sprites[0],this._spriteService.sprites[0].x,this._spriteService.sprites[0].y, this.x, this.y)) {
         this._spriteService.sprites[0].sprite.translation.x=this.x;
         this._spriteService.sprites[0].x= this.x;
         this._spriteService.sprites[0].sprite.translation.y=this.y;
@@ -91,7 +91,7 @@ export class AppComponent implements OnInit {
           let oldX = this._spriteService.sprites[i].x
           let oldY = this._spriteService.sprites[i].y
           this._spriteService.sprites[i]=this._aiService.basicAI(this._spriteService.sprites[i]);
-          if (!this._collisionService.detectBorder(this._spriteService.sprites[i], this._spriteService.sprites[i].x, this._spriteService.sprites[i].y)) {
+          if (!this._collisionService.detectBorder(this._spriteService.sprites[i], oldX, oldY, this._spriteService.sprites[i].x, this._spriteService.sprites[i].y)) {
             this._spriteService.sprites[i].sprite.translation.x = this._spriteService.sprites[i].x;
             this._spriteService.sprites[i].sprite.translation.y = this._spriteService.sprites[i].y;
             this._spriteService.sprites[i].sprite.scale = this._spriteService.sprites[i].scale;

@@ -9,21 +9,21 @@ export class CollisionService {
 
   constructor(private _mapService: MapService) { }
 
-  detectBorder(sprite: Sprite, newX: number, newY: number) {
-    const OFFSET = 2;
-
-    let width=sprite.sprite.width;
-    let height = sprite.sprite.height;
+  detectBorder(sprite: Sprite, oldX: number, oldY: number, newX: number, newY: number) {
+    let OFFSET = 2
+    let scale = sprite.scale;
+    let width=sprite.sprite.width*scale;
+    let height = sprite.sprite.height*scale;
     
-    let leftBound = sprite.x-(width/OFFSET);
-    let rightBound = sprite.x+(width/OFFSET);
-    let upperBound = sprite.y-(height/OFFSET);
-    let lowerBound = sprite.y+(height/OFFSET);
+    let leftBound = oldX-(width/OFFSET);
+    let rightBound = oldX+(width/OFFSET);
+    let upperBound = oldY-(height/OFFSET);
+    let lowerBound = oldY+(height/OFFSET);
 
-    if (leftBound<1 && newX<sprite.x) return true
-    if (rightBound>this._mapService.MAX_X && newX>sprite.x) return true
-    if (upperBound<1 && newY<sprite.y) return true
-    if (lowerBound>this._mapService.MAX_Y && newY>sprite.y) return true 
+    if (leftBound<1 && newX<oldX) return true
+    if (rightBound>this._mapService.MAX_X && newX>oldX) return true
+    if (upperBound<1 && newY<oldY) return true
+    if (lowerBound>this._mapService.MAX_Y && newY>oldY) return true 
     return false
   }
 
