@@ -56,10 +56,10 @@ export class AppComponent implements OnInit {
     };
     let two = new Two(params).appendTo(elem);
 
-    //this._spriteService.populateWilliam(15);
+    this._spriteService.populateWilliam(15);
     this._spriteService.populateEngelfish(1);
-    //this._spriteService.populateSeaweeds(7);
-    //this._spriteService.populateRocks(9);
+    this._spriteService.populateSeaweeds(7);
+    this._spriteService.populateRocks(9);
     this._mapService.init(two);
     this._gameService.init(two);
 
