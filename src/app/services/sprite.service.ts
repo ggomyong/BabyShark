@@ -75,7 +75,7 @@ export class SpriteService {
 
   william:Sprite= {
     name: 'William',
-    type: 'prey',
+      type: 'prey',
       visibility: true,
       state: 0,
       direction: 'right',
