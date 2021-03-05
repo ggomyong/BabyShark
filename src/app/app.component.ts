@@ -48,6 +48,18 @@ export class AppComponent implements OnInit {
     event.preventDefault();
   }
 
+  playAudio(){
+    let audio = new Audio();
+    audio.src = "../assets/audio/babyshark.wav";
+    audio.load();
+    audio.play();
+    audio.addEventListener('ended', function() {
+      this.currentTime = 0;
+      this.play();
+  }, false);
+  }
+  
+
   ngOnInit(): void {
     let elem = document.getElementById('map');
     let params = {
@@ -55,7 +67,7 @@ export class AppComponent implements OnInit {
       height: this._mapService.MAX_Y
     };
     let two = new Two(params).appendTo(elem);
-
+    this.playAudio();
     this._spriteService.populateWilliam(15);
     this._spriteService.populateEngelfish(1);
     this._spriteService.populateSeaweeds(7);
