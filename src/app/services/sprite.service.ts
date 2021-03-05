@@ -19,7 +19,7 @@ export interface Sprite {
   rows: number; // how many rows in your sprite sheet
   columns: number; //how many columns in your sprite sheet
 
-  sprite: any;
+  spriteReference: any;
 
   leftFrames: number[];
   rightFrames: number[];
@@ -46,7 +46,7 @@ export class SpriteService {
       y: 200,
       rows: 2,
       columns: 2,
-      sprite: null,
+      spriteReference: null,
       leftFrames: [2, 3],
       rightFrames: [0, 1]
     },

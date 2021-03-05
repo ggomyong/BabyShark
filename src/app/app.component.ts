@@ -6,10 +6,11 @@ import Two from '../assets/two.min.js';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  constructor() {}
-  
+  //declarations
   x: number = 200;
   y: number = 200;
+
+  constructor() {}
 
   @HostListener('document:keydown',['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -38,12 +39,14 @@ export class AppComponent implements OnInit {
     
     // It also has an API to define a sprite sheet
     let sprite = two.makeSprite('../assets/sprites/Megaman moving.png',200, 200, 3, 1, 10);
+    
     sprite.scale=5;
     // Which does the math to single out the dimensions of a cell and can then animate
     sprite.play();
+    console.log(sprite)
     console.log('x: '+this.x)
     
-    two.bind('update', (frameCount)=> {
+    two.bind('update', (frameCount) => {
       //console.log('hi');
       // Sprites are Rectangles underneath so they have the same properties as Two.Path's
       //console.log(this.x)
