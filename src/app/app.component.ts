@@ -67,7 +67,9 @@ export class AppComponent implements OnInit {
       height: this._mapService.MAX_Y
     };
     let two = new Two(params).appendTo(elem);
-    this.playAudio();
+    document.addEventListener('click', ()=>{
+      this.playAudio();
+    });
     this._spriteService.populateWilliam(15);
     this._spriteService.populateEngelfish(1);
     this._spriteService.populateSeaweeds(7);
