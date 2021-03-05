@@ -2,6 +2,7 @@ import { HostListener } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import Two from '../assets/two.min.js';
 import { AiService } from './services/ai.service.js';
+import { AudioService } from './services/audio.service.js';
 import { CameraService } from './services/camera.service.js';
 import { CollisionService } from './services/collision.service.js';
 import { GameService } from './services/game.service.js';
@@ -27,7 +28,8 @@ export class AppComponent implements OnInit {
     private _aiService: AiService, 
     private _mapService: MapService,
     private _collisionService: CollisionService,
-    private _gameService: GameService) {}
+    private _gameService: GameService,
+    private _audioService: AudioService) {}
 
   @HostListener('document:keydown', ['$event'])
   handleKey(event: any) {
@@ -47,17 +49,6 @@ export class AppComponent implements OnInit {
     }
     event.preventDefault();
   }
-
-  playAudio(){
-    let audio = new Audio();
-    audio.src = "../assets/audio/babyshark.wav";
-    audio.load();
-    audio.play();
-    audio.addEventListener('ended', function() {
-      this.currentTime = 0;
-      this.play();
-  }, false);
-  }
   
 
   ngOnInit(): void {
@@ -68,7 +59,7 @@ export class AppComponent implements OnInit {
     };
     let two = new Two(params).appendTo(elem);
     document.addEventListener('click', ()=>{
-      this.playAudio();
+      this._audioService.playBackgroundMusic();
     });
     this._spriteService.populateWilliam(15);
     this._spriteService.populateEngelfish(1);
