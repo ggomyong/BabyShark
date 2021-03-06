@@ -8,7 +8,7 @@ export interface Sprite {
   lastDirection: string;
   maxSpeed: number; 
   acceleration: number;
-  scale: number;
+  scale: number; //default 1
   playable: boolean;
 
   url: string;
@@ -29,28 +29,27 @@ export interface Sprite {
   providedIn: 'root'
 })
 export class SpriteService {
-  sprites:Sprite[]=[
-    {
-      name: 'Baby Shark',
-      visibility: true,
-      state: 0,
-      direction: 'right',
-      lastDirection: 'right',
-      maxSpeed: 10,
-      acceleration: 1,
-      scale: .7,
-      playable: true,
-      url: '../assets/sprites/babysharks.png',
-      fps: 7,
-      x: 200,
-      y: 200,
-      rows: 2,
-      columns: 2,
-      spriteReference: null,
-      leftFrames: [2, 3],
-      rightFrames: [0, 1]
-    },
-  ];
+  sprites:Sprite[]=[{
+    name: 'Baby Shark',
+    visibility: true,
+    state: 0,
+    direction: 'right',
+    lastDirection: 'right',
+    maxSpeed: 10,
+    acceleration: 1,
+    scale: .7,
+    playable: true,
+    url: '../assets/sprites/babysharks.png',
+    fps: 7,
+    x: 200,
+    y: 200,
+    rows: 2,
+    columns: 2,
+    spriteReference: null,
+    leftFrames: [2, 3],
+    rightFrames: [0, 1]
+  }];
+
 
   constructor() { }
 }

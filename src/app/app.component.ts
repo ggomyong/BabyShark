@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import Two from '../assets/two.min.js';
+import { SpriteService } from './services/sprite.service.js';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,7 +11,7 @@ export class AppComponent implements OnInit {
   x: number = 200;
   y: number = 200;
 
-  constructor() {}
+  constructor(private _spriteService: SpriteService) {}
 
   @HostListener('document:keydown',['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -38,19 +39,21 @@ export class AppComponent implements OnInit {
     //texture.scale = 0.125;
     
     // It also has an API to define a sprite sheet
-    let sprite = two.makeSprite('../assets/sprites/Megaman moving.png',200, 200, 3, 1, 10);
-    
-    sprite.scale=5;
-    // Which does the math to single out the dimensions of a cell and can then animate
-    sprite.play();
-    console.log(sprite)
-    console.log('x: '+this.x)
+    this._spriteService.sprites[0].spriteReference = two.makeSprite(this._spriteService.sprites[0].url,
+      this._spriteService.sprites[0].x,
+      this._spriteService.sprites[0].y, 
+      this._spriteService.sprites[0].columns,
+      this._spriteService.sprites[0].rows,
+      this._spriteService.sprites[0].fps);
+  
+    this._spriteService.sprites[0].spriteReference.play();
+
     
     two.bind('update', (frameCount) => {
       //console.log('hi');
       // Sprites are Rectangles underneath so they have the same properties as Two.Path's
       //console.log(this.x)
-      sprite.translation.x = this.x;
+
     });
         
   }
