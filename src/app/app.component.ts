@@ -17,11 +17,13 @@ import { Sprite, SpriteService } from './services/sprite.service.js';
 export class AppComponent implements OnInit {
   direction:string;
   
-  x: number=0;
-  y: number=0;
+  x: number=200;
+  y: number=300;
 
   max_x: number= 3500;
   max_y: number= 2500;
+
+  gameState: string ='';
 
   constructor(private _spriteService: SpriteService, 
     private _cameraService: CameraService, 
@@ -60,28 +62,67 @@ export class AppComponent implements OnInit {
     let two = new Two(params).appendTo(elem);
     document.addEventListener('click', ()=>{
       this._audioService.playBackgroundMusic();
+      if (this.gameState =='opening') {
+        this._gameService.state ='playing'
+      }
     });
+
+    document.addEventListener('mousemove', ()=>{
+      this._audioService.playBackgroundMusic();
+    });
+
     this._spriteService.populateWilliam(15);
     this._spriteService.populateEngelfish(1);
     this._spriteService.populateSeaweeds(7);
     this._spriteService.populateRocks(9);
     this._mapService.init(two);
-    this._gameService.init(two);
+    
 
     //loop through service
     for (let i=this._spriteService.sprites.length-1; i>=0; i--) {
       let sprite=this._spriteService.sprites[i];
-      this._spriteService.sprites[i].sprite=two.makeSprite(sprite.url, sprite.x, sprite.y, sprite.columns, sprite.rows, sprite.fps);
-      this._spriteService.sprites[i].sprite.play(this._spriteService.sprites[i].rightFrames[0], this._spriteService.sprites[i].rightFrames[1]);
-      this._spriteService.sprites[i].sprite.scale=this._spriteService.sprites[i].scale;
+      this._spriteService.sprites[i].spriteReference=two.makeSprite(sprite.url, sprite.x, sprite.y, sprite.columns, sprite.rows, sprite.fps);
+      this._spriteService.sprites[i].spriteReference.play(this._spriteService.sprites[i].rightFrames[0], this._spriteService.sprites[i].rightFrames[1]);
+      this._spriteService.sprites[i].spriteReference.scale=this._spriteService.sprites[i].scale;
     }
+
+    this._gameService.stateObservable.subscribe((value)=>{
+      this.gameState = value;
+      switch(value) {
+        case 'opening':
+          this._gameService.displayTitle(two)
+          break;
+        case 'playing':
+          this._gameService.hideTitle()
+          this._gameService.initScore(two)
+          break;
+      }
+    })
     //rectangle.scale=.7;
     two.bind('update', (framesPerSecond)=>{
-      // this is where animatoin happens
+     //this.playing(two)
+     if (this.gameState == 'opening') {
+       this.opening(two)
+       this.playing(two, true) //enable auto mode
+     }
+     else if (this.gameState =='playing') {
+       this.playing(two)
+     }
+    }).play();
+  }
+
+  opening(two:any) {
+    //this._gameService.displayTitle(two)
+    this._gameService.animateTitle()
+  }
+
+  playing(two: any, auto = false) {
+     // this is where animatoin happens
+     if (!auto) {
       if (!this._collisionService.detectBorder(this._spriteService.sprites[0],this._spriteService.sprites[0].x,this._spriteService.sprites[0].y, this.x, this.y)) {
-        this._spriteService.sprites[0].sprite.translation.x=this.x;
+        this._spriteService.sprites[0].spriteReference.translation.x=this.x;
         this._spriteService.sprites[0].x= this.x;
-        this._spriteService.sprites[0].sprite.translation.y=this.y;
+        this._spriteService.sprites[0].spriteReference.translation.y=this.y;
         this._spriteService.sprites[0].y= this.y;
         this._cameraService.zoomCamera(this.x, this.y);
       }
@@ -89,42 +130,43 @@ export class AppComponent implements OnInit {
         this.x = this._spriteService.sprites[0].x
         this.y = this._spriteService.sprites[0].y
       }
-      
-      for (let i=this._spriteService.sprites.length-1; i>=0; i--) {
-        if (i>0) {
-          if (!this._spriteService.sprites[i]) continue
-          let oldX = this._spriteService.sprites[i].x
-          let oldY = this._spriteService.sprites[i].y
-          this._spriteService.sprites[i]=this._aiService.basicAI(this._spriteService.sprites[i]);
-          if (!this._collisionService.detectBorder(this._spriteService.sprites[i], oldX, oldY, this._spriteService.sprites[i].x, this._spriteService.sprites[i].y)) {
-            this._spriteService.sprites[i].sprite.translation.x = this._spriteService.sprites[i].x;
-            this._spriteService.sprites[i].sprite.translation.y = this._spriteService.sprites[i].y;
-            this._spriteService.sprites[i].sprite.scale = this._spriteService.sprites[i].scale;
-          }
-          else {
-            this._spriteService.sprites[i].x=oldX
-            this._spriteService.sprites[i].y=oldY
-          }
-          this._collisionService.detectCollision(this._spriteService.sprites[0], this._spriteService.sprites[i]);
+     }
+     
+    
+    for (let i=this._spriteService.sprites.length-1; i>=0; i--) {
+      if (i>0 || auto) {
+        if (!this._spriteService.sprites[i]) continue
+        let oldX = this._spriteService.sprites[i].x
+        let oldY = this._spriteService.sprites[i].y
+        this._spriteService.sprites[i]=this._aiService.basicAI(this._spriteService.sprites[i]);
+        if (!this._collisionService.detectBorder(this._spriteService.sprites[i], oldX, oldY, this._spriteService.sprites[i].x, this._spriteService.sprites[i].y)) {
+          this._spriteService.sprites[i].spriteReference.translation.x = this._spriteService.sprites[i].x;
+          this._spriteService.sprites[i].spriteReference.translation.y = this._spriteService.sprites[i].y;
+          this._spriteService.sprites[i].spriteReference.scale = this._spriteService.sprites[i].scale;
         }
-        if (this._spriteService.sprites[i].direction != this._spriteService.sprites[i].lastDirection) {
-          this._spriteService.sprites[i].lastDirection=this._spriteService.sprites[i].direction;
-          if (this._spriteService.sprites[i].direction=='right') {
-            this._spriteService.sprites[i].sprite.play(this._spriteService.sprites[i].rightFrames[0], this._spriteService.sprites[i].rightFrames[1])
-          }
-          else {
-            this._spriteService.sprites[i].sprite.play(this._spriteService.sprites[i].leftFrames[0], this._spriteService.sprites[i].leftFrames[1])
-          }
+        else {
+          this._spriteService.sprites[i].x=oldX
+          this._spriteService.sprites[i].y=oldY
+        }
+        if (!auto) this._collisionService.detectCollision(this._spriteService.sprites[0], this._spriteService.sprites[i]);
+      }
+      if (this._spriteService.sprites[i].direction != this._spriteService.sprites[i].lastDirection) {
+        this._spriteService.sprites[i].lastDirection=this._spriteService.sprites[i].direction;
+        if (this._spriteService.sprites[i].direction=='right') {
+          this._spriteService.sprites[i].spriteReference.play(this._spriteService.sprites[i].rightFrames[0], this._spriteService.sprites[i].rightFrames[1])
+        }
+        else {
+          this._spriteService.sprites[i].spriteReference.play(this._spriteService.sprites[i].leftFrames[0], this._spriteService.sprites[i].leftFrames[1])
         }
       }
-      let numberOfWilliams = 0
-      for (let sprite of this._spriteService.sprites) {
-        if (sprite.type=='prey' && sprite.sprite.scale>0) {
-          numberOfWilliams++
-        }
+    }
+    let numberOfWilliams = 0
+    for (let sprite of this._spriteService.sprites) {
+      if (sprite.type=='prey' && sprite.spriteReference.scale>0) {
+        numberOfWilliams++
       }
-      this._gameService.displayScore(two, this.x, this.y, numberOfWilliams); 
-    }).play();
+    }
+    if (!auto) this._gameService.displayScore(two, this.x, this.y, numberOfWilliams); 
   }
 
   title = 'BabyShark';

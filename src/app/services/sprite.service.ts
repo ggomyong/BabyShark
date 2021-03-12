@@ -20,7 +20,7 @@ export interface Sprite {
   rows: number; // how many rows in your sprite sheet
   columns: number; //how many columns in your sprite sheet
 
-  sprite: any;
+  spriteReference: any;
 
   leftFrames: number[];
   rightFrames: number[];
@@ -47,7 +47,7 @@ export class SpriteService {
     y: 0,
     rows: 2,
     columns: 1,
-    sprite: null,
+    spriteReference: null,
     leftFrames: [0, 1],
     rightFrames: [0, 1]
   }
@@ -68,7 +68,7 @@ export class SpriteService {
     y: 0,
     rows: 2,
     columns: 1,
-    sprite: null,
+    spriteReference: null,
     leftFrames: [0, 1],
     rightFrames: [0, 1]
   }
@@ -90,7 +90,7 @@ export class SpriteService {
       y: 200,
       rows: 2,
       columns: 2,
-      sprite: null,
+      spriteReference: null,
       leftFrames: [2, 3],
       rightFrames: [0, 1]
   }
@@ -112,7 +112,7 @@ export class SpriteService {
       y: 200,
       rows: 2,
       columns: 2,
-      sprite: null,
+      spriteReference: null,
       leftFrames: [2, 3],
       rightFrames: [0, 1]
   }
@@ -135,7 +135,7 @@ export class SpriteService {
       y: 0,
       rows: 2,
       columns: 2,
-      sprite: null,
+      spriteReference: null,
       leftFrames: [2, 3],
       rightFrames: [0, 1]
     },
@@ -145,7 +145,7 @@ export class SpriteService {
     for (let i=0; i<numberToPopulate; i++) {
       let william = this.william;
       william.x = Math.floor(Math.random() * 50* i)+300;
-      william.y = Math.floor(Math.random() * 10* i)+200;
+      william.y = Math.floor(Math.random() * 30* i)+200;
 
       this.sprites.push(JSON.parse(JSON.stringify(william)));
     }
@@ -155,7 +155,7 @@ export class SpriteService {
     for (let i=0; i<numberToPopulate; i++) {
       let engelfish = this.engelfish;
       engelfish.x = Math.floor(Math.random() * 500* i);
-      engelfish.y = Math.floor(Math.random() * 100* i);
+      engelfish.y = Math.floor(Math.random() * 150* i);
 
       this.sprites.push(JSON.parse(JSON.stringify(engelfish)));
     }
@@ -178,6 +178,18 @@ export class SpriteService {
       rock.y = 700 + (Math.random()*100)
 
       this.sprites.push(JSON.parse(JSON.stringify(rock)));
+    }
+  }
+
+  hideAll() {
+    for (let i=0; i<this.sprites.length; i++) {
+      this.sprites[i].spriteReference.scale= 0;
+    }
+  }
+
+  showAll() {
+    for (let i=0; i<this.sprites.length; i++) {
+      this.sprites[i].spriteReference.scale= this.sprites[i].scale;
     }
   }
 

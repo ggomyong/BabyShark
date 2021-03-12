@@ -6,8 +6,10 @@ import { Injectable } from '@angular/core';
 export class AudioService {
 
   constructor() { }
-
+  private _isBGMPlaying = false;
   playBackgroundMusic(){
+    if (this._isBGMPlaying) return;
+    this._isBGMPlaying = true;
     let audio = new Audio();
     audio.src = "../../assets/audio/babyshark.wav";
     audio.load();
