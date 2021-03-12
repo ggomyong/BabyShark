@@ -39,14 +39,13 @@ export class AppComponent implements OnInit {
     //texture.scale = 0.125;
     
     // It also has an API to define a sprite sheet
-    this._spriteService.sprites[0].spriteReference = two.makeSprite(this._spriteService.sprites[0].url,
-      this._spriteService.sprites[0].x,
-      this._spriteService.sprites[0].y, 
-      this._spriteService.sprites[0].columns,
-      this._spriteService.sprites[0].rows,
-      this._spriteService.sprites[0].fps);
-  
-    this._spriteService.sprites[0].spriteReference.play();
+    let mySprite = this._spriteService.sprites[0];
+
+    mySprite.spriteReference = two.makeSprite(mySprite.url, mySprite.x, 
+      mySprite.y, mySprite.columns, mySprite.rows, mySprite.fps);
+
+    mySprite.spriteReference.scale = mySprite.scale
+    mySprite.spriteReference.play();
 
     
     two.bind('update', (frameCount) => {
