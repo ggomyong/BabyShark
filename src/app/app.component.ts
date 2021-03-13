@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
     this._spriteService.populateSeaweeds(7);
     this._spriteService.populateRocks(9);
     this._mapService.init(two);
-    this._gameService.init(two);
+    this._gameService.initScore(two, 15);
 
     //loop through service
     for (let i=this._spriteService.sprites.length-1; i>=0; i--) {
@@ -123,7 +123,7 @@ export class AppComponent implements OnInit {
           numberOfWilliams++
         }
       }
-      this._gameService.displayScore(two, this.x, this.y, numberOfWilliams); 
+      this._gameService.displayScore(this.x, this.y, numberOfWilliams); 
     }).play();
   }
 

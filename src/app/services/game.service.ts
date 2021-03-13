@@ -8,6 +8,7 @@ import Two from '../../assets/two.min.js';
 export class GameService {
 
   constructor(private _spriteService: SpriteService) { }
+
   private _william: any;
   private _score: any
   private _defaultX: number = 1400
@@ -18,20 +19,19 @@ export class GameService {
   private _scoreXOffset = 60
   private _scoreYOffset = 5
 
-  public numberOfWilliams: 15
-
-  init(two: any) {
-    this._william = two.makeSprite(this._spriteService.william.url,this._defaultX, this._defaultY, this._spriteService.william.columns, this._spriteService.william.rows, this._spriteService.william.fps);
+  initScore(two: any, numberOfWilliams) {
+    this._william = two.makeSprite(this._spriteService.william.url, this._defaultX, this._defaultY, 
+                    this._spriteService.william.columns, this._spriteService.william.rows, this._spriteService.william.fps);
     this._william.scale = .3;
     this._william.play(0, 0)
-    this._score = new Two.Text('X '+this.numberOfWilliams, this._defaultX+this._scoreXOffset, this._defaultY+this._scoreYOffset, 'normal')
+    this._score = new Two.Text('X '+numberOfWilliams, this._defaultX+this._scoreXOffset, this._defaultY+this._scoreYOffset, 'normal')
     this._score.fill = '#ddddFF';
     this._score.stroke ='#FFFFFF';
     this._score.scale=1.75;
     two.add(this._score);
   }
 
-  displayScore(two: any, x: number, y: number, num: number) {
+  displayScore(x: number, y: number, num: number) {
     //calculate the top-right corner
     y=y-285
     if (y<this._defaultY) y=this._defaultY
