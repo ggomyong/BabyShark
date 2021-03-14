@@ -9,8 +9,6 @@ import { Sprite, SpriteService } from './services/sprite.service.js';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  direction:string;
-  
   x: number=200;
   y: number=200;
 
@@ -50,15 +48,18 @@ export class AppComponent implements OnInit {
     two.bind('update', (framesPerSecond)=>{
       // this is where animatoin happens
       this._spriteService.sprites[0].sprite.translation.x=this.x;
-        this._spriteService.sprites[0].sprite.translation.y=this.y;
+      this._spriteService.sprites[0].sprite.translation.y=this.y;
+
         for (let i=0; i<this._spriteService.sprites.length; i++) {
           if (this._spriteService.sprites[i].direction != this._spriteService.sprites[i].lastDirection) {
             this._spriteService.sprites[i].lastDirection=this._spriteService.sprites[i].direction;
             if (this._spriteService.sprites[i].direction=='right') {
-              this._spriteService.sprites[i].sprite.play(this._spriteService.sprites[i].rightFrames[0], this._spriteService.sprites[i].rightFrames[1])
+              this._spriteService.sprites[i].sprite.play(this._spriteService.sprites[i].rightFrames[0],
+                this._spriteService.sprites[i].rightFrames[1])
             }
             else {
-              this._spriteService.sprites[i].sprite.play(this._spriteService.sprites[i].leftFrames[0], this._spriteService.sprites[i].leftFrames[1])
+              this._spriteService.sprites[i].sprite.play(this._spriteService.sprites[i].leftFrames[0], 
+              this._spriteService.sprites[i].leftFrames[1])
             }
           }
         }
