@@ -60,8 +60,7 @@ export class AppComponent implements OnInit {
       this._spriteService.sprites[i].sprite.scale=this._spriteService.sprites[i].scale;
     }
 
-    
-
+  
     //rectangle.scale=.7;
     two.bind('update', (framesPerSecond)=>{
       // this is where animatoin happens

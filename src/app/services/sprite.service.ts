@@ -94,12 +94,15 @@ export class SpriteService {
     },
   ];
 
+  constructor() { }
+
   populateWilliam(numberToPopulate: number) {
     for (let i=0; i<numberToPopulate; i++) {
       let william = this.william;
-      william.x = Math.floor(Math.random() * 50* i)+300;
-      william.y = Math.floor(Math.random() * 10* i)+200;
-
+      //william.x = Math.floor(Math.random() * 50* i)+300;
+      //william.y = Math.floor(Math.random() * 10* i)+200;
+      william.x = 200+i;
+      william.y= 200+i;
       this.sprites.push(JSON.parse(JSON.stringify(william)));
     }
   }
@@ -107,12 +110,11 @@ export class SpriteService {
   populateEngelfish(numberToPopulate: number) {
     for (let i=0; i<numberToPopulate; i++) {
       let engelfish = this.engelfish;
-      engelfish.x = Math.floor(Math.random() * 500* i);
-      engelfish.y = Math.floor(Math.random() * 100* i);
-
+      //engelfish.x = Math.floor(Math.random() * 500* i);
+      //engelfish.y = Math.floor(Math.random() * 100* i);
+      engelfish.x = 200+i;
+      engelfish.y= 200+i;
       this.sprites.push(JSON.parse(JSON.stringify(engelfish)));
     }
   }
-
-  constructor() { }
 }
