@@ -27,6 +27,9 @@ export class GameService {
   private _subtitle: any
   private _increment: number =.2;
 
+  private _gameover: any
+  private _gameover2: any
+
   private _state = new BehaviorSubject<string>('opening')
   public stateObservable = this._state.asObservable()
 
@@ -46,6 +49,11 @@ export class GameService {
     this._score.stroke ='#FFFFFF';
     this._score.scale=1.75;
     two.add(this._score);
+  }
+
+  hideScore() {
+    if (this._william) this._william.scale=0
+    if (this._score) this._score.scale =0
   }
 
   displayScore(two: any, x: number, y: number, num: number) {
@@ -80,6 +88,8 @@ export class GameService {
   hideTitle() {
     this._title.scale =0
     this._subtitle.scale =0
+    if (this._gameover) this._gameover.scale = 0
+    if (this._gameover2) this._gameover2.scale = 0
   }
 
   animateTitle(){
@@ -93,7 +103,16 @@ export class GameService {
     this._subtitle.scale= this._subtitle.scale+this._increment
   }
 
-  displayGameOver() {
-
+  displayGameOver(two: any) {
+    this._gameover = new Two.Text('Game Over', 750, 250, 'normal')
+    this._gameover.fill = 'yellow'
+    this._gameover.stroke = 'orange'
+    this._gameover.scale = 11
+    two.add(this._gameover);
+    this._gameover2 = new Two.Text('Click anywhere to restart', 750, 350, 'normal')
+    this._gameover2.fill='orange'
+    this._gameover2.stroke ='yellow'
+    this._gameover2.scale = 5
+    two.add(this._gameover2)
   }
 }

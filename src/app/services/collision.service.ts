@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { GameService } from './game.service';
 import { MapService } from './map.service';
 import { Sprite } from './sprite.service';
 
@@ -7,7 +8,7 @@ import { Sprite } from './sprite.service';
 })
 export class CollisionService {
 
-  constructor(private _mapService: MapService) { }
+  constructor(private _mapService: MapService, private _gameService: GameService) { }
 
   detectBorder(sprite: Sprite, oldX: number, oldY: number, newX: number, newY: number) {
     let OFFSET = 2
@@ -55,6 +56,7 @@ export class CollisionService {
         }
         else if (targetSprite.type =='predator') {
           //handle game over
+          mySprite.state = -1;
         }
       }
     }

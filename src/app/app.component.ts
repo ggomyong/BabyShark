@@ -1,13 +1,13 @@
 import { HostListener } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import Two from '../assets/two.min.js';
-import { AiService } from './services/ai.service.js';
-import { AudioService } from './services/audio.service.js';
-import { CameraService } from './services/camera.service.js';
-import { CollisionService } from './services/collision.service.js';
-import { GameService } from './services/game.service.js';
-import { MapService } from './services/map.service.js';
-import { Sprite, SpriteService } from './services/sprite.service.js';
+import { AiService } from './services/ai.service';
+import { AudioService } from './services/audio.service';
+import { CameraService } from './services/camera.service';
+import { CollisionService } from './services/collision.service';
+import { GameService } from './services/game.service';
+import { MapService } from './services/map.service';
+import { Sprite, SpriteService } from './services/sprite.service';
 
 @Component({
   selector: 'app-root',
@@ -62,7 +62,7 @@ export class AppComponent implements OnInit {
     let two = new Two(params).appendTo(elem);
     document.addEventListener('click', ()=>{
       this._audioService.playBackgroundMusic();
-      if (this.gameState =='opening') {
+      if (this.gameState =='opening' || this.gameState=='gameover') {
         this._gameService.state ='playing'
       }
     });
@@ -71,30 +71,22 @@ export class AppComponent implements OnInit {
       this._audioService.playBackgroundMusic();
     });
 
-    this._spriteService.populateWilliam(15);
-    this._spriteService.populateEngelfish(1);
-    this._spriteService.populateSeaweeds(7);
-    this._spriteService.populateRocks(9);
-    this._mapService.init(two);
-    
-
-    //loop through service
-    for (let i=this._spriteService.sprites.length-1; i>=0; i--) {
-      let sprite=this._spriteService.sprites[i];
-      this._spriteService.sprites[i].spriteReference=two.makeSprite(sprite.url, sprite.x, sprite.y, sprite.columns, sprite.rows, sprite.fps);
-      this._spriteService.sprites[i].spriteReference.play(this._spriteService.sprites[i].rightFrames[0], this._spriteService.sprites[i].rightFrames[1]);
-      this._spriteService.sprites[i].spriteReference.scale=this._spriteService.sprites[i].scale;
-    }
+    this.initialize(two)
 
     this._gameService.stateObservable.subscribe((value)=>{
       this.gameState = value;
       switch(value) {
         case 'opening':
+          this._gameService.hideScore()
           this._gameService.displayTitle(two)
           break;
         case 'playing':
+          this.initialize(two)
           this._gameService.hideTitle()
-          this._gameService.initScore(two)
+          break;
+        case 'gameover':
+          this._gameService.hideScore()
+          this._gameService.displayGameOver(two)
           break;
       }
     })
@@ -108,7 +100,42 @@ export class AppComponent implements OnInit {
      else if (this.gameState =='playing') {
        this.playing(two)
      }
+     else if (this.gameState == 'gameover'){
+       //do nothing.
+     }
     }).play();
+  }
+
+  initialize(two: any) {
+    for (let i=this._spriteService.sprites.length-1; i>0; i--) {
+      this._spriteService.sprites[i].scale = 0;
+      if (this._spriteService.sprites[i].spriteReference) {
+        this._spriteService.sprites[i].spriteReference.scale = 0 
+      }
+      this._spriteService.sprites.splice(i, 1);
+    }
+
+    this._spriteService.sprites[0].x = 200;
+    this._spriteService.sprites[0].y = 200;
+    this._spriteService.sprites[0].state =0;
+    if (this._spriteService.sprites[0].spriteReference) this._spriteService.sprites[0].spriteReference.scale = 0
+
+    this.x = 200;
+    this.y= 200;
+    this._spriteService.populateWilliam(15);
+    this._spriteService.populateEngelfish(1);
+    this._spriteService.populateSeaweeds(7);
+    this._spriteService.populateRocks(9);
+    this._mapService.init(two);
+    this._gameService.initScore(two)
+
+    //loop through service
+    for (let i=this._spriteService.sprites.length-1; i>=0; i--) {
+      let sprite=this._spriteService.sprites[i];
+      this._spriteService.sprites[i].spriteReference=two.makeSprite(sprite.url, sprite.x, sprite.y, sprite.columns, sprite.rows, sprite.fps);
+      this._spriteService.sprites[i].spriteReference.play(this._spriteService.sprites[i].rightFrames[0], this._spriteService.sprites[i].rightFrames[1]);
+      this._spriteService.sprites[i].spriteReference.scale=this._spriteService.sprites[i].scale;
+    }
   }
 
   opening(two:any) {
@@ -116,9 +143,9 @@ export class AppComponent implements OnInit {
     this._gameService.animateTitle()
   }
 
-  playing(two: any, auto = false) {
+  playing(two: any, autopilot: boolean  = false) {
      // this is where animatoin happens
-     if (!auto) {
+     if (!autopilot) { // Do NOT run this block of code, if it's on auto-pilot
       if (!this._collisionService.detectBorder(this._spriteService.sprites[0],this._spriteService.sprites[0].x,this._spriteService.sprites[0].y, this.x, this.y)) {
         this._spriteService.sprites[0].spriteReference.translation.x=this.x;
         this._spriteService.sprites[0].x= this.x;
@@ -131,10 +158,12 @@ export class AppComponent implements OnInit {
         this.y = this._spriteService.sprites[0].y
       }
      }
-     
+     if (this._spriteService.sprites[0].state <0 ) {
+       this._gameService.state = 'gameover'
+     }
     
     for (let i=this._spriteService.sprites.length-1; i>=0; i--) {
-      if (i>0 || auto) {
+      if (i>0 || autopilot) {
         if (!this._spriteService.sprites[i]) continue
         let oldX = this._spriteService.sprites[i].x
         let oldY = this._spriteService.sprites[i].y
@@ -148,7 +177,7 @@ export class AppComponent implements OnInit {
           this._spriteService.sprites[i].x=oldX
           this._spriteService.sprites[i].y=oldY
         }
-        if (!auto) this._collisionService.detectCollision(this._spriteService.sprites[0], this._spriteService.sprites[i]);
+        if (!autopilot) this._collisionService.detectCollision(this._spriteService.sprites[0], this._spriteService.sprites[i]);
       }
       if (this._spriteService.sprites[i].direction != this._spriteService.sprites[i].lastDirection) {
         this._spriteService.sprites[i].lastDirection=this._spriteService.sprites[i].direction;
