@@ -66,8 +66,8 @@ export class AppComponent implements OnInit {
       // this is where animatoin happens
 
 
-      if (this.x+70<this.max_x && this.x-70>0) this._spriteService.sprites[0].sprite.translation.x=this.x;
-      if (this.y+30<this.max_y && this.y-70>0) this._spriteService.sprites[0].sprite.translation.y=this.y;
+      this._spriteService.sprites[0].sprite.translation.x=this.x;
+      this._spriteService.sprites[0].sprite.translation.y=this.y;
       
       this._cameraService.zoomCamera(this.x, this.y);
 
