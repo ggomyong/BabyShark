@@ -85,7 +85,7 @@ export class AppComponent implements OnInit {
           this._gameService.hideTitle()
           break;
         case 'gameover':
-          this._gameService.hideScore()
+          //this._gameService.hideScore()
           this._gameService.displayGameOver(two)
           break;
       }
@@ -107,6 +107,7 @@ export class AppComponent implements OnInit {
   }
 
   initialize(two: any) {
+    // resetting of all members of the array by making their scale to be 0, and splicing it from array.
     for (let i=this._spriteService.sprites.length-1; i>0; i--) {
       this._spriteService.sprites[i].scale = 0;
       if (this._spriteService.sprites[i].spriteReference) {
@@ -195,7 +196,7 @@ export class AppComponent implements OnInit {
         numberOfWilliams++
       }
     }
-    if (!auto) this._gameService.displayScore(two, this.x, this.y, numberOfWilliams); 
+    if (!autopilot) this._gameService.displayScore(two, this.x, this.y, numberOfWilliams); 
   }
 
   title = 'BabyShark';
