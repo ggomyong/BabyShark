@@ -7,7 +7,7 @@ import { Sprite } from './sprite.service';
 export class AiService {
   private _changeDirectionChance=.005;
   private _updateMovementXChance = .8;
-  private _updateMovementYChance = .2;
+  private _updateMovementYChance = .3;
 
   constructor() { }
 
@@ -37,11 +37,11 @@ export class AiService {
     chance = Math.random();
     if (chance< this._updateMovementYChance) {
       chance = Math.random();
-      if (chance<.5) {
-        sprite.y=sprite.y-3;
+      if (chance<=.5) {
+        sprite.y=sprite.y-3; //moving up
       }
       else {
-        sprite.y=sprite.y+3;
+        sprite.y=sprite.y+3; //moving down
       }
     }
     return sprite;
