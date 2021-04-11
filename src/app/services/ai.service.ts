@@ -64,12 +64,12 @@ export class AiService {
     if (chance< this._updateMovementXChance) {
       if (sprite.direction =='right') {
         if (this.checkXBounday(sprite)) {
-          sprite.x = sprite.x+3;
+          sprite.x = sprite.x+sprite.maxSpeed;
         } 
       }
       else {
         if (this.checkXBounday(sprite)) {
-          sprite.x = sprite.x-3;
+          sprite.x = sprite.x-sprite.maxSpeed;
         }
         
       }
@@ -79,17 +79,70 @@ export class AiService {
       chance = Math.random();
       if (chance<.5) {
         if (this.checkYBoundary(sprite,'up')) {
-          sprite.y=sprite.y-3;
+          sprite.y=sprite.y-sprite.maxSpeed;
         }
       }
       else {
         if (this.checkYBoundary(sprite,'down')) {
-          sprite.y=sprite.y+3;
+          sprite.y=sprite.y+sprite.maxSpeed;
         }
         
       }
     }
     return sprite;
+  }
+
+  predatorAI(sprite: Sprite, x: number, y: number, range: number) {
+    // Will chase the player's sprite if in certain range
+    //calculate distance between the two sprites.
+    let distance = Math.pow(sprite.x-x,2) + Math.pow(sprite.y-y,2)
+    if (distance<=range) {
+      if (sprite.x<=x) {
+        //gotta move to the right
+        sprite.direction = 'right';
+        sprite.x = sprite.x+sprite.maxSpeed;
+      }
+      else {
+        //gotta move to the left
+        sprite.direction = 'left';
+        sprite.x = sprite.x-sprite.maxSpeed;
+      }
+
+      if (sprite.y<=y) {
+        //gotta move down
+        sprite.y = sprite.y+sprite.maxSpeed;
+      }
+      else {
+        //gotta move up
+        sprite.y = sprite.y-sprite.maxSpeed;
+      }
+    }
+  }
+
+  preyAI(sprite: Sprite, x: number, y: number, range: number) {
+    // Will run away from the player's sprite if in certain range
+    let distance = Math.pow(sprite.x-x,2) + Math.pow(sprite.y-y,2)
+    if (distance<=range) {
+      if (sprite.x<=x) {
+        //gotta move to the left
+        sprite.direction = 'left';
+        sprite.x = sprite.x-sprite.maxSpeed;
+      }
+      else {
+        //gotta move to the right
+        sprite.direction = 'right';
+        sprite.x = sprite.x+sprite.maxSpeed;
+      }
+
+      if (sprite.y<=y) {
+        //gotta move down
+        sprite.y = sprite.y-sprite.maxSpeed;
+      }
+      else {
+        //gotta move up
+        sprite.y = sprite.y+sprite.maxSpeed;
+      }
+    }
   }
 }
  

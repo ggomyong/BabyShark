@@ -62,7 +62,7 @@ export class AppComponent implements OnInit {
     let two = new Two(params).appendTo(elem);
     document.addEventListener('click', ()=>{
       this._audioService.playBackgroundMusic();
-      if (this.gameState =='opening' || this.gameState=='gameover') {
+      if (this.gameState =='opening' || this.gameState=='gameover' || this.gameState =='gameclear') {
         this._gameService.state ='playing'
       }
     });
@@ -87,6 +87,9 @@ export class AppComponent implements OnInit {
         case 'gameover':
           //this._gameService.hideScore()
           this._gameService.displayGameOver(two)
+          break;
+        case 'gameclear':
+          this._gameService.displayGameClear(two)
           break;
       }
     })
@@ -195,6 +198,9 @@ export class AppComponent implements OnInit {
       if (sprite.type=='prey' && sprite.spriteReference.scale>0) {
         numberOfWilliams++
       }
+    }
+    if (numberOfWilliams==0) {
+      this._gameService.state = 'gameclear'
     }
     if (!autopilot) this._gameService.displayScore(two, this.x, this.y, numberOfWilliams); 
   }
