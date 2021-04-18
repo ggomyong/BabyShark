@@ -95,6 +95,8 @@ export class GameService {
     if (this._gameover2) this._gameover2.scale = 0
     if (this._gameClear) this._gameClear.scale =0
     if (this._gameClear2) this._gameClear2.scale= 0
+    if (this._william) this._william.scale =0
+    if (this._score) this._score.scale = 0
   }
 
   animateTitle(){

@@ -81,8 +81,8 @@ export class AppComponent implements OnInit {
           this._gameService.displayTitle(two)
           break;
         case 'playing':
-          this.initialize(two)
           this._gameService.hideTitle()
+          this.initialize(two)
           break;
         case 'gameover':
           //this._gameService.hideScore()
