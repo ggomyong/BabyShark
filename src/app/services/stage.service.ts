@@ -23,7 +23,7 @@ export class StageService {
       numberOfPreys: 10,
       numberOfPredators: 1,
       chanceOfBetterAI: 0,
-      rangeToTriggerBetterAI: 50
+      rangeToTriggerBetterAI: 100
     },
     {
       level: 2,
@@ -31,7 +31,7 @@ export class StageService {
       numberOfPreys: 15,
       numberOfPredators: 1,
       chanceOfBetterAI: .3,
-      rangeToTriggerBetterAI: 150
+      rangeToTriggerBetterAI: 250
     },
     {
       level: 3,
@@ -39,7 +39,7 @@ export class StageService {
       numberOfPreys: 20,
       numberOfPredators: 2,
       chanceOfBetterAI: .5,
-      rangeToTriggerBetterAI: 250
+      rangeToTriggerBetterAI: 500
     },
   ];
 

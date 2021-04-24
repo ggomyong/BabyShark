@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AudioService } from './audio.service';
 import { GameService } from './game.service';
 import { MapService } from './map.service';
 import { Sprite } from './sprite.service';
@@ -8,7 +9,7 @@ import { Sprite } from './sprite.service';
 })
 export class CollisionService {
 
-  constructor(private _mapService: MapService, private _gameService: GameService) { }
+  constructor(private _mapService: MapService, private _gameService: GameService, private _audioService: AudioService) { }
 
   detectBorder(sprite: Sprite, oldX: number, oldY: number, newX: number, newY: number) {
     let OFFSET = 2
@@ -51,12 +52,14 @@ export class CollisionService {
       //console.log('horizontal check!')
       if ((upperBound<targetUpperBound && targetUpperBound<lowerBound) 
       || (upperBound<targetLowerBound && targetLowerBound<lowerBound)) {
-        if (targetSprite.type == 'prey') {
+        if (targetSprite.type == 'prey' && targetSprite.scale>0) {
           targetSprite.scale = 0
+          this._audioService.score();
         }
         else if (targetSprite.type =='predator') {
           //handle game over
           mySprite.state = -1;
+          this._audioService.fail();
         }
       }
     }

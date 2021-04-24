@@ -117,11 +117,16 @@ export class AiService {
         sprite.y = sprite.y-sprite.maxSpeed;
       }
     }
+    else {
+      return this.basicAI(sprite);
+    }
+    return sprite;
   }
 
   preyAI(sprite: Sprite, x: number, y: number, range: number) {
     // Will run away from the player's sprite if in certain range
-    let distance = Math.pow(sprite.x-x,2) + Math.pow(sprite.y-y,2)
+    let distance = Math.pow(Math.pow(sprite.x-x,2) + Math.pow(sprite.y-y,2),.5)
+
     if (distance<=range) {
       if (sprite.x<=x) {
         //gotta move to the left
@@ -143,6 +148,11 @@ export class AiService {
         sprite.y = sprite.y+sprite.maxSpeed;
       }
     }
+    else {
+      return this.basicAI(sprite);
+    }
+
+    return sprite;
   }
 }
  

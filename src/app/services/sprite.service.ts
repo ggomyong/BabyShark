@@ -154,8 +154,8 @@ export class SpriteService {
   populateEngelfish(numberToPopulate: number) {
     for (let i=0; i<numberToPopulate; i++) {
       let engelfish = this.engelfish;
-      engelfish.x = Math.floor(Math.random() * 500* i);
-      engelfish.y = Math.floor(Math.random() * 150* i);
+      engelfish.x = Math.floor(Math.random() * 1500* i);
+      engelfish.y = Math.floor(Math.random() * 1150* i);
 
       this.sprites.push(JSON.parse(JSON.stringify(engelfish)));
     }

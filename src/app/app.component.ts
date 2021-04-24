@@ -8,6 +8,7 @@ import { CollisionService } from './services/collision.service';
 import { GameService } from './services/game.service';
 import { MapService } from './services/map.service';
 import { Sprite, SpriteService } from './services/sprite.service';
+import { Stage, StageService } from './services/stage.service';
 
 @Component({
   selector: 'app-root',
@@ -24,6 +25,8 @@ export class AppComponent implements OnInit {
   max_y: number= 2500;
 
   gameState: string ='';
+  gameStage: number = 0;
+  stageData: Stage;
 
   constructor(private _spriteService: SpriteService, 
     private _cameraService: CameraService, 
@@ -31,7 +34,8 @@ export class AppComponent implements OnInit {
     private _mapService: MapService,
     private _collisionService: CollisionService,
     private _gameService: GameService,
-    private _audioService: AudioService) {}
+    private _audioService: AudioService,
+    private _stageService: StageService) {}
 
   @HostListener('document:keydown', ['$event'])
   handleKey(event: any) {
@@ -89,9 +93,14 @@ export class AppComponent implements OnInit {
           this._gameService.displayGameOver(two)
           break;
         case 'gameclear':
-          this._gameService.displayGameClear(two)
+          this._gameService.displayGameClear(two, this.gameStage+1, this._stageService.stages.length)
           break;
       }
+    })
+
+    this._gameService.stageObservable.subscribe((value)=>{
+      this.gameStage = value;
+      this.stageData = this._stageService.stages[this.gameStage]
     })
     //rectangle.scale=.7;
     two.bind('update', (framesPerSecond)=>{
@@ -118,6 +127,9 @@ export class AppComponent implements OnInit {
       }
       this._spriteService.sprites.splice(i, 1);
     }
+    if (!this.stageData) {
+      this.stageData = this._stageService.stages[0];
+    }
 
     this._spriteService.sprites[0].x = 200;
     this._spriteService.sprites[0].y = 200;
@@ -126,8 +138,8 @@ export class AppComponent implements OnInit {
 
     this.x = 200;
     this.y= 200;
-    this._spriteService.populateWilliam(15);
-    this._spriteService.populateEngelfish(1);
+    this._spriteService.populateWilliam(this.stageData.numberOfPreys);
+    this._spriteService.populateEngelfish(this.stageData.numberOfPredators);
     this._spriteService.populateSeaweeds(7);
     this._spriteService.populateRocks(9);
     this._mapService.init(two);
@@ -171,7 +183,14 @@ export class AppComponent implements OnInit {
         if (!this._spriteService.sprites[i]) continue
         let oldX = this._spriteService.sprites[i].x
         let oldY = this._spriteService.sprites[i].y
-        this._spriteService.sprites[i]=this._aiService.basicAI(this._spriteService.sprites[i]);
+
+        if (this._spriteService.sprites[i].type=='predator') {
+          this._spriteService.sprites[i]=this._aiService.predatorAI(this._spriteService.sprites[i], this.x, this.y, this.stageData.rangeToTriggerBetterAI);
+        }
+        else {
+          this._spriteService.sprites[i]=this._aiService.preyAI(this._spriteService.sprites[i], this.x, this.y, this.stageData.rangeToTriggerBetterAI);
+        }
+        
         if (!this._collisionService.detectBorder(this._spriteService.sprites[i], oldX, oldY, this._spriteService.sprites[i].x, this._spriteService.sprites[i].y)) {
           this._spriteService.sprites[i].spriteReference.translation.x = this._spriteService.sprites[i].x;
           this._spriteService.sprites[i].spriteReference.translation.y = this._spriteService.sprites[i].y;
@@ -201,6 +220,8 @@ export class AppComponent implements OnInit {
     }
     if (numberOfWilliams==0) {
       this._gameService.state = 'gameclear'
+      this._gameService.stage = this.gameStage+1;
+      this._audioService.success();
     }
     if (!autopilot) this._gameService.displayScore(two, this.x, this.y, numberOfWilliams); 
   }

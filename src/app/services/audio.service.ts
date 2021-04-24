@@ -19,4 +19,25 @@ export class AudioService {
       this.play();
   }, false);
   }
+
+  success() {
+    let audio = new Audio();
+    audio.src = "../../assets/audio/success.wav";
+    audio.load();
+    audio.play();
+  }
+  
+  fail() {
+    let audio = new Audio();
+    audio.src = "../../assets/audio/fail.wav";
+    audio.load();
+    audio.play();
+  }
+
+  score() {
+    let audio = new Audio();
+    audio.src = "../../assets/audio/score.wav";
+    audio.load();
+    audio.play();
+  }
 }
