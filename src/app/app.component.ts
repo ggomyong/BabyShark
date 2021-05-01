@@ -28,6 +28,8 @@ export class AppComponent implements OnInit {
   gameStage: number = 0;
   stageData: Stage;
 
+  clicked: boolean = false;
+
   constructor(private _spriteService: SpriteService, 
     private _cameraService: CameraService, 
     private _aiService: AiService, 
@@ -53,6 +55,10 @@ export class AppComponent implements OnInit {
     else if (event.key=='ArrowDown') {
       this.y=this.y+10;
     }
+    if (this.clicked) {
+      this._audioService.playBackgroundMusic();
+      
+    }
     event.preventDefault();
   }
   
@@ -65,7 +71,7 @@ export class AppComponent implements OnInit {
     };
     let two = new Two(params).appendTo(elem);
     document.addEventListener('click', ()=>{
-      this._audioService.playBackgroundMusic();
+      this.clicked = true;
       if (this.gameState =='opening' || this.gameState=='gameover' || this.gameState =='gameclear') {
         this._gameService.state ='playing'
       }

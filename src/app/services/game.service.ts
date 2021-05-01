@@ -134,7 +134,7 @@ export class GameService {
     two.add(this._gameover2)
   }
 
-  displayGameClear(two: any, stage, maxStage) {
+  displayGameClear(two: any, stage:number, maxStage:number) {
     this._gameClear = new Two.Text('Game Clear', window.scrollX+(window.innerWidth/2), window.scrollY+(window.innerHeight/2)-50, 'normal')
     this._gameClear.fill = 'yellow'
     this._gameClear.stroke = 'orange'
@@ -142,7 +142,6 @@ export class GameService {
     two.add(this._gameClear);
     let textToSay='';
     if (stage+1<=maxStage) {
-      stage=stage;
       textToSay = 'Click anywhere to advance to Stage '+(stage+1);
     }
     else {

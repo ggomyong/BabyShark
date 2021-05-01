@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MapService } from './map.service';
 
 export interface Sprite {
   name: string;
@@ -141,10 +142,13 @@ export class SpriteService {
     },
   ];
 
+  private _max_x = 0;
+  private _max_y = 0;
+
   populateWilliam(numberToPopulate: number) {
     for (let i=0; i<numberToPopulate; i++) {
       let william = this.william;
-      william.x = Math.floor(Math.random() * 50* i)+300;
+      william.x = Math.floor(Math.random() * (this._max_x/numberToPopulate))+(this._max_x/numberToPopulate)*i;
       william.y = Math.floor(Math.random() * 30* i)+200;
 
       this.sprites.push(JSON.parse(JSON.stringify(william)));
@@ -154,7 +158,7 @@ export class SpriteService {
   populateEngelfish(numberToPopulate: number) {
     for (let i=0; i<numberToPopulate; i++) {
       let engelfish = this.engelfish;
-      engelfish.x = Math.floor(Math.random() * 1500* i);
+      engelfish.x = Math.floor(Math.random() * (this._max_x/numberToPopulate))+(this._max_x/numberToPopulate)*i;
       engelfish.y = Math.floor(Math.random() * 1150* i);
 
       this.sprites.push(JSON.parse(JSON.stringify(engelfish)));
@@ -164,7 +168,7 @@ export class SpriteService {
   populateSeaweeds(numberToPopulate: number) {
     for (let i=0; i<numberToPopulate; i++) {
       let seaweed = this.seaweed;
-      seaweed.x = Math.floor(Math.random() * 1000* i);
+      seaweed.x = Math.floor(Math.random() * (this._max_x/numberToPopulate))+(this._max_x/numberToPopulate)*i;
       seaweed.y = 700 + (Math.random()*100)
 
       this.sprites.push(JSON.parse(JSON.stringify(seaweed)));
@@ -174,7 +178,7 @@ export class SpriteService {
   populateRocks(numberToPopulate: number) {
     for (let i=0; i<numberToPopulate; i++) {
       let rock = this.rock;
-      rock.x = Math.floor(Math.random() * 1000* i);
+      rock.x = Math.floor(Math.random() * (this._max_x/numberToPopulate))+(this._max_x/numberToPopulate)*i;
       rock.y = 700 + (Math.random()*100)
 
       this.sprites.push(JSON.parse(JSON.stringify(rock)));
@@ -193,5 +197,9 @@ export class SpriteService {
     }
   }
 
-  constructor() { }
+  constructor(private _mapService: MapService) { 
+    this._max_x = this._mapService.MAX_X;
+    this._max_y = this._mapService.MAX_Y;
+  }
 }
+
