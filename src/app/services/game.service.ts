@@ -36,11 +36,22 @@ export class GameService {
   private _state = new BehaviorSubject<string>('opening')
   public stateObservable = this._state.asObservable()
 
+  private _stage = new BehaviorSubject<number>(0);
+  public stageObservable = this._stage.asObservable();
+
   get state() {
     return this._state.getValue()
   }
   set state(value) {
     this._state.next(value)
+  }
+
+  get stage() {
+    return this._stage.getValue();
+  }
+
+  set stage(value) {
+    this._stage.next(value);
   }
 
   initScore(two: any) {
@@ -76,12 +87,12 @@ export class GameService {
   }
 
   displayTitle(two: any) {
-    this._title = new Two.Text('Baby Shark', 750, 250, 'normal')
+    this._title = new Two.Text('Baby Shark', window.scrollX+(window.innerWidth/2), window.scrollY+(window.innerHeight/2)-50, 'normal')
     this._title.fill = 'yellow'
     this._title.stroke = 'orange'
     this._title.scale = 11
     two.add(this._title);
-    this._subtitle = new Two.Text('Click anywhere to begin', 750, 350, 'normal')
+    this._subtitle = new Two.Text('Click anywhere to begin', window.scrollX+(window.innerWidth/2), window.scrollY+(window.innerHeight/2)+50, 'normal')
     this._subtitle.fill='orange'
     this._subtitle.stroke ='yellow'
     this._subtitle.scale = 5
@@ -111,25 +122,34 @@ export class GameService {
   }
 
   displayGameOver(two: any) {
-    this._gameover = new Two.Text('Game Over', 750, 250, 'normal')
+    this._gameover = new Two.Text('Game Over', window.scrollX+(window.innerWidth/2), window.scrollY+(window.innerHeight/2)-50, 'normal')
     this._gameover.fill = 'yellow'
     this._gameover.stroke = 'orange'
     this._gameover.scale = 11
     two.add(this._gameover);
-    this._gameover2 = new Two.Text('Click anywhere to restart', 750, 350, 'normal')
+    this._gameover2 = new Two.Text('Click anywhere to restart', window.scrollX+(window.innerWidth/2), window.scrollY+(window.innerHeight/2)+50, 'normal')
     this._gameover2.fill='orange'
     this._gameover2.stroke ='yellow'
     this._gameover2.scale = 5
     two.add(this._gameover2)
   }
 
-  displayGameClear(two: any) {
-    this._gameClear = new Two.Text('Game Clear', 750, 250, 'normal')
+  displayGameClear(two: any, stage, maxStage) {
+    this._gameClear = new Two.Text('Game Clear', window.scrollX+(window.innerWidth/2), window.scrollY+(window.innerHeight/2)-50, 'normal')
     this._gameClear.fill = 'yellow'
     this._gameClear.stroke = 'orange'
     this._gameClear.scale = 11
     two.add(this._gameClear);
-    this._gameClear2 = new Two.Text('Click anywhere to restart', 750, 350, 'normal')
+    let textToSay='';
+    if (stage+1<=maxStage) {
+      stage=stage;
+      textToSay = 'Click anywhere to advance to Stage '+(stage+1);
+    }
+    else {
+      textToSay= 'Click anywhere to restart'
+    }
+
+    this._gameClear2 = new Two.Text(textToSay, window.scrollX+(window.innerWidth/2), window.scrollY+(window.innerHeight/2)+50, 'normal')
     this._gameClear2.fill='orange'
     this._gameClear2.stroke ='yellow'
     this._gameClear2.scale = 5
