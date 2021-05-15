@@ -29,6 +29,26 @@ export interface Sprite {
   providedIn: 'root'
 })
 export class SpriteService {
+  volcano: Sprite= {
+    name: 'Volcano',
+    visibility: true,
+    state: 0,
+    direction: 'none',
+    lastDirection: 'none',
+    maxSpeed: 0,
+    acceleration: 0,
+    scale: 1,
+    playable: false,
+    url: '../assets/sprites/volcano.png',
+    fps: 7,
+    x: 0,
+    y: 0,
+    rows: 3,
+    columns: 1,
+    sprite: null,
+    leftFrames: [0, 1],
+    rightFrames: [0, 1]
+  }
   seaweed: Sprite = {
     name: 'Seaweed',
     visibility: true,
@@ -141,6 +161,17 @@ export class SpriteService {
       seaweed.y = 700 + (Math.random()*100)
 
       this.sprites.push(JSON.parse(JSON.stringify(seaweed)));
+    }
+  }
+
+
+  populateVolcano(numberToPopulate: number) {
+    for (let i=0; i<numberToPopulate; i++) {
+      let volcano = this.volcano;
+      volcano.x = Math.floor(Math.random() * 500* i);
+      volcano.y = Math.floor(Math.random() * 100* i);
+
+      this.sprites.push(JSON.parse(JSON.stringify(volcano)));
     }
   }
 

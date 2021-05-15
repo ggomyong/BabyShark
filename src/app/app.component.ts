@@ -12,6 +12,7 @@ import { Sprite, SpriteService } from './services/sprite.service.js';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  title = 'BabyShark';
   direction:string;
   
   x: number=200;
@@ -47,11 +48,13 @@ export class AppComponent implements OnInit {
       width: this._mapService.MAX_X,
       height: this._mapService.MAX_Y
     };
+    
     let two = new Two(params).appendTo(elem);
-
+    
     this._spriteService.populateWilliam(10);
     this._spriteService.populateEngelfish(1);
     this._spriteService.populateSeaweeds(7);
+    this._spriteService.populateVolcano(7);
     this._mapService.init(two);
 
     //loop through service
@@ -61,8 +64,6 @@ export class AppComponent implements OnInit {
       this._spriteService.sprites[i].sprite.play(this._spriteService.sprites[i].rightFrames[0], this._spriteService.sprites[i].rightFrames[1]);
       this._spriteService.sprites[i].sprite.scale=this._spriteService.sprites[i].scale;
     }
-
-    
 
     //rectangle.scale=.7;
     two.bind('update', (framesPerSecond)=>{
@@ -94,6 +95,6 @@ export class AppComponent implements OnInit {
     }).play();
   }
 
-  title = 'BabyShark';
+  
 
 }
