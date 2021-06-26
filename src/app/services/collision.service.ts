@@ -11,9 +11,8 @@ export class CollisionService {
 
   detectBorder(sprite: Sprite, oldX: number, oldY: number, newX: number, newY: number) {
     let OFFSET = 2
-    let scale = sprite.scale;
-    let width=sprite.sprite.width*scale;
-    let height = sprite.sprite.height*scale;
+    let width=sprite.sprite.width;
+    let height = sprite.sprite.height;
     
     let leftBound = oldX-(width/OFFSET);
     let rightBound = oldX+(width/OFFSET);

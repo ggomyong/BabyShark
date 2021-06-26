@@ -32,7 +32,7 @@ export interface Sprite {
 export class SpriteService {
   seaweed: Sprite = {
     name: 'Seaweed',
-    type: 'passable',
+    type: 'object',
     visibility: true,
     state: 0,
     direction: 'none',
@@ -53,7 +53,7 @@ export class SpriteService {
   }
   rock: Sprite = {
     name: 'Rock',
-    type: 'block',
+    type: 'object',
     visibility: true,
     state: 0,
     direction: 'none',
